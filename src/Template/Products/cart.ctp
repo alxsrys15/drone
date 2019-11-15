@@ -31,6 +31,48 @@
 			</div>
 		</div>
 	</div>
+	<div class="row py-5 p-4 bg-white rounded shadow-sm">
+		<div class="col-lg-6">
+			<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Payment Method</div>
+			<div class="p-4">
+	            <p class="font-italic mb-4">Please select a payment method</p>
+	            <div class="input-group mb-4 border rounded-pill p-2">
+	              	<select class="form-control border-0">
+	              		<option value ="paypal">PAYPAL</option>
+	              		<option value ="paymaya">PAYMAYA</option>
+	              		<option value ="bank-deposit">BANK DEPOSIT</option>
+	              	</select>
+	            </div>
+			</div>
+			<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Shipping Address</div>
+			<div class="p-4">
+            	<p class="font-italic mb-4">Please provide an accurate shipping address below</p>
+            	<textarea name="" cols="30" rows="2" class="form-control"></textarea>
+          	</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+			<div class="p-4">
+				<ul class="list-unstyled mb-4">
+					<li class="d-flex justify-content-between py-3 border-bottom">
+						<strong class="text-muted">Order Subtotal </strong>
+						<strong id="total-cart">$390.00</strong>
+					</li>
+					<li class="d-flex justify-content-between py-3 border-bottom">
+						<strong class="text-muted">Shipping and handling</strong>
+						<strong id="shipping-fee">$10.00</strong>
+					</li>
+					<li class="d-flex justify-content-between py-3 border-bottom">
+						<strong class="text-muted">
+							Total
+						</strong>
+                		<h5 class="font-weight-bold" id="total">$400.00</h5>
+              		</li>
+				</ul>
+				<a href="#" class="btn btn-primary rounded-pill py-2 btn-block">Procceed to checkout</a>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -55,7 +97,16 @@
 			}
 		});
 	}
+
+	function populateOrderSummary () {
+		var total_cart = shoppingCart.totalCart();
+		var shipping = 100;
+		$('#shipping-fee').text('P' + shipping.toFixed(2));
+		$('#total-cart').text('P' + total_cart.toFixed(2));
+		$("#total").text('P' + (total_cart + shipping).toFixed(2));
+	}
 	$(document).ready(function () {
 		populateCartTable();
+		populateOrderSummary();
 	});
 </script>

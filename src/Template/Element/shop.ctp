@@ -4,7 +4,7 @@
 	<div class="<?= $isShop ? 'col-4' : 'col-3' ?>">
 		<div class="card shadow-lg rounded mb-3">
 			<?= $this->Html->link(
-					$this->Html->image('product_images/' . $product->img1, ['class' => 'card-img-top']),
+					$this->Html->image('product_images/' . $product->img1, ['class' => 'card-img-top', 'height' => '200']),
 					['controller' => 'products', 'action' => 'view', $product->id],
 					['escape' => false]
 				)
