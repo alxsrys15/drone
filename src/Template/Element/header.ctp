@@ -1,3 +1,7 @@
+<style type="text/css">
+    .navbar-
+</style>
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-first">
     <div class="container">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -29,14 +33,10 @@
 </nav>
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container">
-        <?= $this->Html->link(
-            $this->Html->image('drone_img.jpg'),
-            '#',
-            ['escape' => false]
-        ) ?>
-        <a class="navbar-brand" href="#">
+        <!-- <a class="navbar-brand" href="#">
             
-        </a>
+        </a> -->
+        <?= $this->Html->link($this->Html->image('assets/drone_logo.jpg', ['width' => '150px', 'height' => '100px']), ['controller' => 'Home'], ['class' => 'navbar-brand', 'escape' => false]) ?>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
