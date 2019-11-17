@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Auth\DefaultPasswordHasher;
+use Ahc\Jwt\JWT;
 
 
 /**
@@ -120,12 +121,31 @@ class UsersController extends AppController
 
     public function login () {
         if ($this->request->is('post')) {
-            $user = $this->Auth->identify();
-            if ($user) {
-                $this->Auth->setUser($user);
-                return $this->redirect(['controller' => $user['lib_user_role']['name'] === "Admin" ? 'Admin' : 'Home']);
+            // pr($this->request->data);die();
+            $q = $this->Users->findByEmail($this->request->data['email'])->first();
+            if ($q->is_active) {
+                $user = $this->Auth->identify();
+                if ($user) {
+                    $this->Auth->setUser($user);
+                    return $this->redirect(['controller' => $user['lib_user_role']['name'] === "Admin" ? 'Admin' : 'Home']);
+                }
+                $this->Flash->error(__('Invalid username or password, try again'));
+            } else {
+                $this->Flash->error(__('Please verify your account.'));
             }
-            $this->Flash->error(__('Invalid username or password, try again'));
+        }
+
+        if ($this->request->is('get')) {
+            if (!empty($this->request->query['user'])) {
+                $jwt = new JWT('secret', 'HS256', 3600, 10);
+                $token = $this->request->query['user'];
+                $payload = $jwt->decode($token);
+                $user = $this->Users->get($payload['id']);
+                $user->is_active = 1;
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('Account verified. You can now log in.'));
+                }
+            }
         }
     }
 
@@ -134,6 +154,7 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->getData();
             $newUser = $this->Users->newEntity($data);
+            $newUser->verification_token = '';
             $errors = $newUser->getErrors();
             if ($this->Users->save($newUser)) {
                 $this->Flash->success(__('Registration successful.'));

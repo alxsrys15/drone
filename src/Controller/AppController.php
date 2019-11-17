@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Mailer\Email;
 
 /**
  * Application Controller
@@ -45,6 +46,8 @@ class AppController extends Controller
 
     public function beforeRender (Event $event) {
         // $this->set('Auth', $this->Auth);
+        
+
     }
 
     public function initialize()

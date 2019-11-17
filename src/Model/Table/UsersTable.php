@@ -5,6 +5,9 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Ahc\Jwt\JWT;
+use Cake\Mailer\MailerAwareTrait;
+
 
 /**
  * Users Model
@@ -25,6 +28,7 @@ use Cake\Validation\Validator;
  */
 class UsersTable extends Table
 {
+    use MailerAwareTrait;
     /**
      * Initialize method
      *
@@ -112,5 +116,21 @@ class UsersTable extends Table
         $query->contain('LibUserRoles');
 
         return $query;
+    }
+
+    public function afterSave ($event, $entity) {
+        $jwt = new JWT('secret', 'HS256', 3600, 10);
+        if ($entity->isNew()) {
+            $token = $jwt->encode([
+                'id' => $entity->id,
+                'email' => $entity->email
+            ]);
+
+            $entity->verification_token = $token;
+
+            if ($this->save($entity)) {
+                $this->getMailer('User')->send('welcome', [$entity]);
+            }
+        }
     }
 }
