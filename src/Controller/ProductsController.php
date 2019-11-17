@@ -2,6 +2,17 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use PayPal\Api\Payer;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Details;
+use PayPal\Api\Amount;
+use PayPal\Api\Transaction;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Payment;
+use PayPal\Exception\PayPalConnectionException;
+use Ahc\Jwt\JWT;
+use Cake\Routing\Router;
 
 /**
  * Products Controller
@@ -138,7 +149,14 @@ class ProductsController extends AppController
     }
 
     public function cart () {
-
+        if ($this->request->is('post')) {
+            $payment_type = $this->request->getData()['payment_type'];
+            $items = json_decode($this->request->getData()['items'], true);
+            $shipping_address = $this->request->getData()['shipping_address'];
+            if ($payment_type === "paypal") {
+                $this->processPaypal($items);
+            }
+        }
     }
 
     public function populateCartTable () {
@@ -146,6 +164,56 @@ class ProductsController extends AppController
             $cart = json_decode($this->request->data['data'], true);
             $this->set(compact('cart'));
             $this->render('cart_table');
+        }
+    }
+
+    private function processPaypal ($items) {
+        $jwt = new JWT('secret', 'HS256', 3600, 10);
+
+        if (!empty($items)) {
+            $paypalItemList = new ItemList();
+            $total_amount = 0;
+            foreach ($items as $i) {
+                $total_amount += $i['total'];
+                $paypalItem = new Item([
+                    'name' => $i['name'],
+                    'quantity' => $i['count'],
+                    'price' => $i['price'],
+                    'currency' => 'PHP'
+                ]);
+                $paypalItemList->addItem($paypalItem);
+            }
+            // pr($paypalItemList);die();
+            $payment = new Payment([
+                'intent' => 'sale',
+                'redirect_urls' => [
+                    'return_url' => Router::url(['controller' => 'products', 'action' => 'completeOrder', '?' => ['items' => $jwt->encode(['items' => $items]), 'success' => true]], true),
+                    'cancel_url' => Router::url(['controller' => 'products', 'action' => 'completeOrder', '?' => ['success' => false]], true)
+                ],
+                'payer' => ['payment_method' => 'paypal'],
+                'transactions' => [
+                    [
+                        'amount' => [
+                            'total' => $total_amount + 100,
+                            'currency' => 'PHP',
+                            'details' => [
+                                'shipping' => 100,
+                                'sub_total' => $total_amount
+                            ]
+                        ],
+                        'item_list' => $paypalItemList,
+                        'description' => 'Payment',
+                        'invoice_number' => uniqid()
+                    ]
+                ]
+            ]);
+            try {
+                $payment->create($this->apiContext);
+            } catch (PayPalConnectionException $ex) {
+                pr($ex->getData());die();
+            }
+            $approvalUrl = $payment->getApprovalLink();
+            pr($approvalUrl);die();
         }
     }
 }

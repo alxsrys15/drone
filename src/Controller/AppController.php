@@ -38,8 +38,10 @@ class AppController extends Controller
      *
      * @return void
      */
+
+    public $apiContext = "";
+
     public function beforeFilter (Event $event) {
-        
         parent::beforeFilter($event);
         $this->Auth->allow(['register', 'populateCartTable']);
     }
@@ -47,7 +49,6 @@ class AppController extends Controller
     public function beforeRender (Event $event) {
         // $this->set('Auth', $this->Auth);
         
-
     }
 
     public function initialize()
@@ -83,6 +84,22 @@ class AppController extends Controller
             'loginRedirect' => [
                 'controller' => 'Home'
             ]
+        ]);
+
+        $this->apiContext = new \PayPal\Rest\ApiContext(
+            new \PayPal\Auth\OAuthTokenCredential(
+                'AU1yfOP1VtrOKJ9zZzCs7L0OsUsK9jH_HFseVw4zsh91VWnX2KLXhZRRYsUGnJmxLFklfcWdD4iNwJiy',     // ClientID
+                'EMruMKkLnHKHRzSiPsim8Ux0b2zL1XLoTXxZBZ_75uKPFfvsLYFnZAuz9uCe2cAoggxGENG97fGoOXpz'      // ClientSecret
+            )
+        );
+
+        $this->apiContext->setConfig([
+            'mode' => 'sandbox',
+            'log.LogEnabled' => true,
+            'log.FileName' => 'PayPal.log',
+            'log.LogLevel' => 'FINE', // PLEASE USE `FINE` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
+            'cache.enabled' => true,
+            'validation.level' => 'log'
         ]);
     }
 }

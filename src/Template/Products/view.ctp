@@ -97,7 +97,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-4">
-                        <button type="button" class="btn btn-primary btn-block" data-name="<?= $product->name ?>" data-price="<?= $product->price ?>" id="add-to-cart-btn" data-image="<?= $product->img1 ?>">
+                        <button type="button" class="btn btn-primary btn-block" data-name="<?= $product->name ?>" data-price="<?= $product->price ?>" id="add-to-cart-btn" data-image="<?= $product->img1 ?>" data-id="<?= $product->id ?>">
                             <i class="fa fa-cart-plus"></i>
                             Add to cart
                         </button>
@@ -142,10 +142,11 @@
                 name: $(this).data('name'),
                 price: Number($(this).data('price')),
                 quantity: Number($('#quantity').val()),
-                image: $(this).data('image')
+                image: $(this).data('image'),
+                id: $(this).data('id')
             };
 
-            shoppingCart.addItemToCart(item.name, item.price, item.quantity, item.image);
+            shoppingCart.addItemToCart(item.name, item.price, item.quantity, item.image, item.id);
             Swal.fire(
                 'Success!',
                 'Item added to cart',

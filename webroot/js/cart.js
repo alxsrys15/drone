@@ -9,11 +9,12 @@ var shoppingCart = (function() {
   cart = [];
   
   // Constructor
-  function Item(name, price, count, image) {
+  function Item(name, price, count, image, id) {
     this.name = name;
     this.price = price;
     this.count = count;
     this.image = image;
+    this.id = id;
   }
   
   // Save cart
@@ -36,7 +37,7 @@ var shoppingCart = (function() {
   var obj = {};
   
   // Add to cart
-  obj.addItemToCart = function(name, price, count, image) {
+  obj.addItemToCart = function(name, price, count, image, id) {
     for(var item in cart) {
       if(cart[item].name === name) {
         cart[item].count ++;
@@ -44,8 +45,8 @@ var shoppingCart = (function() {
         return;
       }
     }
-    var item = new Item(name, price, count, image);
-    console.log(item);
+    var item = new Item(name, price, count, image, id);
+    
     cart.push(item);
     saveCart();
   }

@@ -1,3 +1,9 @@
+<style type="text/css">
+	.invalid {
+		border: solid 1px red !important;
+	}
+</style>
+
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
@@ -37,17 +43,17 @@
 			<div class="p-4">
 	            <p class="font-italic mb-4">Please select a payment method</p>
 	            <div class="input-group mb-4 border rounded-pill p-2">
-	              	<select class="form-control border-0">
-	              		<option value ="paypal">PAYPAL</option>
-	              		<option value ="paymaya">PAYMAYA</option>
-	              		<option value ="bank-deposit">BANK DEPOSIT</option>
+	              	<select class="form-control border-0" id="payment-select">
+	              		<option value="paypal">PAYPAL</option>
+	              		<option value="paymaya">PAYMAYA</option>
+	              		<option value="bank-deposit">BANK DEPOSIT</option>
 	              	</select>
 	            </div>
 			</div>
 			<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Shipping Address</div>
 			<div class="p-4">
             	<p class="font-italic mb-4">Please provide an accurate shipping address below</p>
-            	<textarea name="" cols="30" rows="2" class="form-control"></textarea>
+            	<textarea name="" cols="30" rows="2" class="form-control" id="shipping-address-input"></textarea>
           	</div>
 		</div>
 		<div class="col-lg-6">
@@ -69,11 +75,17 @@
                 		<h5 class="font-weight-bold" id="total">$400.00</h5>
               		</li>
 				</ul>
-				<a href="#" class="btn btn-primary rounded-pill py-2 btn-block">Procceed to checkout</a>
+				<a href="#" class="btn btn-primary rounded-pill py-2 btn-block btn-checkout">Procceed to checkout</a>
 			</div>
 		</div>
 	</div>
 </div>
+
+<?= $this->Form->create(null, ['id' => 'cart-form']) ?>
+<?= $this->Form->control('payment_type', ['type' => 'hidden']) ?>
+<?= $this->Form->control('items', ['type' => 'hidden']) ?>
+<?= $this->Form->control('shipping_address', ['type' => 'hidden']) ?>
+<?= $this->Form->end() ?>
 
 <script type="text/javascript">
 	function populateCartTable () {
@@ -105,8 +117,29 @@
 		$('#total-cart').text('P' + total_cart.toFixed(2));
 		$("#total").text('P' + (total_cart + shipping).toFixed(2));
 	}
+
+	$('#payment-select').on('change', function () {
+		$('#payment-type').val($(this).val());
+	});
+
 	$(document).ready(function () {
 		populateCartTable();
 		populateOrderSummary();
+		$('#payment-select').trigger('change');
+		$('.btn-checkout').on('click', function () {
+			$('#items').val(JSON.stringify(shoppingCart.listCart()));
+			if ($('#shipping-address-input').val() == "") {
+				$('#shipping-address-input').addClass('is-invalid');
+				$('#shipping-address-input').focus();
+				Swal.fire(
+	                'Error!',
+	                'Please provide a shipping address',
+	                'error'
+	            );
+	            return;
+			}
+			$('#shipping-address').val($('#shipping-address-input').val());
+			$('#cart-form').trigger('submit');
+		});
 	});
 </script>
