@@ -88,8 +88,8 @@ class AppController extends Controller
 
         $this->apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
-                'AU1yfOP1VtrOKJ9zZzCs7L0OsUsK9jH_HFseVw4zsh91VWnX2KLXhZRRYsUGnJmxLFklfcWdD4iNwJiy',     // ClientID
-                'EMruMKkLnHKHRzSiPsim8Ux0b2zL1XLoTXxZBZ_75uKPFfvsLYFnZAuz9uCe2cAoggxGENG97fGoOXpz'      // ClientSecret
+                'Aa5RbP9Dztf-e-r396fxsgsidXNkkAX9B8alf2YB6K19u5ecnZSXcp63ZS_6v9ahMGATMkBITB95gvtu',     // ClientID
+                'EKNWfcFCSgTxsKSCMEKSqJEOKASHv4suR3apRbLRMnLwZ2A8YW8Sh1uM8vF4XML0dhSEYEyhrC_JOQXu'      // ClientSecret
             )
         );
 

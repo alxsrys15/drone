@@ -15,6 +15,9 @@
 								<div class="p-2 px-3 text-uppercase">Product</div>
 							</th>
 							<th scope="col" class="border-0 bg-light">
+	                    		<div class="py-2 text-uppercase">Size</div>
+	                  		</th>
+							<th scope="col" class="border-0 bg-light">
 	                    		<div class="py-2 text-uppercase">Price</div>
 	                  		</th>
 	                  		<th scope="col" class="border-0 bg-light">
@@ -112,7 +115,8 @@
 
 	function populateOrderSummary () {
 		var total_cart = shoppingCart.totalCart();
-		var shipping = 100;
+		var cart = shoppingCart.listCart();
+		var shipping = cart.length > 0 ? 100 : 0;
 		$('#shipping-fee').text('P' + shipping.toFixed(2));
 		$('#total-cart').text('P' + total_cart.toFixed(2));
 		$("#total").text('P' + (total_cart + shipping).toFixed(2));

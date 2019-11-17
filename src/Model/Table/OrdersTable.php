@@ -67,7 +67,7 @@ class OrdersTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->decimal('total')
+            ->integer('total')
             ->requirePresence('total', 'create')
             ->notEmptyString('total');
 
@@ -75,6 +75,16 @@ class OrdersTable extends Table
             ->scalar('shipping_address')
             ->maxLength('shipping_address', 255)
             ->allowEmptyString('shipping_address');
+
+        $validator
+            ->scalar('payment_type')
+            ->maxLength('payment_type', 45)
+            ->allowEmptyString('payment_type');
+
+        $validator
+            ->scalar('payment_token')
+            ->maxLength('payment_token', 255)
+            ->allowEmptyString('payment_token');
 
         return $validator;
     }

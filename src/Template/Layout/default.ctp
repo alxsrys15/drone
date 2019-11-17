@@ -61,9 +61,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <script type="text/javascript">
         var url = '<?= $this->Url->build('/', true); ?>';
         var csrfToken = <?= json_encode($this->request->getParam('_csrfToken')) ?>;
-        $(document).ready(function () {
+        function cartBadge () {
             var cartCounter = shoppingCart.listCart().length;
             $('.cart-badge').text(cartCounter);
+        }
+        $(document).ready(function () {
+            cartBadge();
         });
     </script>
 </body>

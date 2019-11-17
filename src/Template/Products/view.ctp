@@ -143,10 +143,12 @@
                 price: Number($(this).data('price')),
                 quantity: Number($('#quantity').val()),
                 image: $(this).data('image'),
-                id: $(this).data('id')
+                id: $(this).data('id'),
+                size_id: $('#sizes').val(),
+                size_name: $("#sizes option:selected").html()
             };
-
-            shoppingCart.addItemToCart(item.name, item.price, item.quantity, item.image, item.id);
+            console.log(item);
+            shoppingCart.addItemToCart(item.name, item.price, item.quantity, item.image, item.id, item.size_id, item.size_name);
             Swal.fire(
                 'Success!',
                 'Item added to cart',

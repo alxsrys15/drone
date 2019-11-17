@@ -150,11 +150,16 @@ class ProductsController extends AppController
 
     public function cart () {
         if ($this->request->is('post')) {
-            $payment_type = $this->request->getData()['payment_type'];
-            $items = json_decode($this->request->getData()['items'], true);
-            $shipping_address = $this->request->getData()['shipping_address'];
-            if ($payment_type === "paypal") {
-                $this->processPaypal($items);
+            if ($this->Auth->User('id')) {
+                $payment_type = $this->request->getData()['payment_type'];
+                $items = json_decode($this->request->getData()['items'], true);
+                $shipping_address = $this->request->getData()['shipping_address'];
+                if ($payment_type === "paypal") {
+                    $this->processPaypal($items, $shipping_address);
+                }
+            } else {
+                $this->Flash->error(__('Please login to continue'));
+                return $this->redirect(['controller' => 'users', 'action' => 'login']);
             }
         }
     }
@@ -167,7 +172,7 @@ class ProductsController extends AppController
         }
     }
 
-    private function processPaypal ($items) {
+    private function processPaypal ($items, $shipping_address) {
         $jwt = new JWT('secret', 'HS256', 3600, 10);
 
         if (!empty($items)) {
@@ -187,8 +192,8 @@ class ProductsController extends AppController
             $payment = new Payment([
                 'intent' => 'sale',
                 'redirect_urls' => [
-                    'return_url' => Router::url(['controller' => 'products', 'action' => 'completeOrder', '?' => ['items' => $jwt->encode(['items' => $items]), 'success' => true]], true),
-                    'cancel_url' => Router::url(['controller' => 'products', 'action' => 'completeOrder', '?' => ['success' => false]], true)
+                    'return_url' => Router::url(['controller' => 'products', 'action' => 'completeOrder', '?' => ['order_details' => $jwt->encode(['items' => $items, 'shipping_address' => $shipping_address]), 'success' => true]], true),
+                    'cancel_url' => Router::url(['controller' => 'products', 'action' => 'cart'], true)
                 ],
                 'payer' => ['payment_method' => 'paypal'],
                 'transactions' => [
@@ -213,7 +218,63 @@ class ProductsController extends AppController
                 pr($ex->getData());die();
             }
             $approvalUrl = $payment->getApprovalLink();
-            pr($approvalUrl);die();
+            return $this->redirect($approvalUrl);
+        }
+    }
+
+    public function completeOrder () {
+        $this->loadModel('Orders');
+        $jwt = new JWT('secret', 'HS256', 3600, 10);
+        if ($this->request->is('get')) {
+            $is_success = $this->request->getQuery()['success'];
+            $saved = false;
+            if ($is_success) {
+                $order_details = $jwt->decode($this->request->getQuery()['order_details']);
+                $items = json_decode(json_encode($order_details['items']), true);
+                $token_check = $this->Orders->exists(['payment_token' => $this->request->getQuery()['token']]);
+                if (!$token_check) {
+                    $total = 0;
+                    $newOrderDetails = [];
+                    $shipping_address = $order_details['shipping_address'];
+                    foreach ($items as $i) {
+                        $total += $i['total'];
+                        $newOrderDetails[] = [
+                            'product_id' => $i['id'],
+                            'quantity' => $i['count']
+                        ];
+                    }
+                    $newOrder = [
+                        'user_id' => $this->Auth->User('id'),
+                        'total' => (int) $total,
+                        'shipping_address' => $shipping_address,
+                        'payment_type' => 'PAYPAL',
+                        'lib_status_code_id' => 2,
+                        'payment_token' => $this->request->getQuery()['token'],
+                        'order_details' => $newOrderDetails
+                    ];
+                    $newOrder = $this->Orders->newEntity($newOrder, ['associated' => 'OrderDetails']);
+                    
+                    if ($this->Orders->save($newOrder, ['associated' => 'OrderDetails'])) {
+                        $this->adjustStock($items);
+                    }
+                }
+                $this->set(compact('items'));
+            }
+        }
+    }
+
+    private function adjustStock($items = []) {
+        if (!empty($items)) {
+            foreach ($items as $i) {
+                $pv = $this->Products->ProductVariants->find('all', [
+                    'conditions' => [
+                        'product_id' => $i['id'],
+                        'size_id' => $i['size_id']
+                    ]
+                ])->first();
+                $pv->sku = $pv->sku - $i['count'];
+                $this->Products->ProductVariants->save($pv);
+            }
         }
     }
 }

@@ -9,12 +9,14 @@ var shoppingCart = (function() {
   cart = [];
   
   // Constructor
-  function Item(name, price, count, image, id) {
+  function Item(name, price, count, image, id, size_id, size_name) {
     this.name = name;
     this.price = price;
     this.count = count;
     this.image = image;
     this.id = id;
+    this.size_id = size_id;
+    this.size_name = size_name;
   }
   
   // Save cart
@@ -37,7 +39,7 @@ var shoppingCart = (function() {
   var obj = {};
   
   // Add to cart
-  obj.addItemToCart = function(name, price, count, image, id) {
+  obj.addItemToCart = function(name, price, count, image, id, size_id, size_name) {
     for(var item in cart) {
       if(cart[item].name === name) {
         cart[item].count ++;
@@ -45,8 +47,7 @@ var shoppingCart = (function() {
         return;
       }
     }
-    var item = new Item(name, price, count, image, id);
-    
+    var item = new Item(name, price, count, image, id, size_id, size_name);
     cart.push(item);
     saveCart();
   }
