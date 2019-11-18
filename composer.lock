@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cbfd9f3c56fbd5a59ee76da2d05ba76d",
+    "content-hash": "907e6dd7a075264f382c00302e901835",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -391,6 +391,56 @@
             "time": "2019-09-18T18:44:20+00:00"
         },
         {
+            "name": "paymaya/paymaya-sdk",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PayMaya/PayMaya-PHP-SDK.git",
+                "reference": "a2e276bdd3372249a4e6a4dea9c81b6d230833b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PayMaya/PayMaya-PHP-SDK/zipball/a2e276bdd3372249a4e6a4dea9c81b6d230833b9",
+                "reference": "a2e276bdd3372249a4e6a4dea9c81b6d230833b9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0",
+                "psr/log": "1.0.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PayMaya": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayMaya Engineering",
+                    "email": "paymayadevs@voyager.ph",
+                    "homepage": "https://developers.paymaya.com/"
+                }
+            ],
+            "description": "PHP SDK for PayMaya APIs. Accept credit and debit card payments on your web app.",
+            "homepage": "https://github.com/PayMaya/PayMaya-PHP-SDK",
+            "keywords": [
+                "paymaya",
+                "payments",
+                "rest",
+                "sdk"
+            ],
+            "time": "2017-06-14T09:07:19+00:00"
+        },
+        {
             "name": "paypal/rest-api-sdk-php",
             "version": "1.14.0",
             "source": {
@@ -540,16 +590,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2"
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
-                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
                 "shasum": ""
             },
             "require": {
@@ -558,7 +608,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -583,7 +633,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2019-10-25T08:06:51+00:00"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "psr/simple-cache",

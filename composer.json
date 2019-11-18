@@ -11,7 +11,9 @@
         "cakephp/migrations": "^2.0.0",
         "cakephp/plugin-installer": "^1.0",
         "mobiledetect/mobiledetectlib": "2.*",
-        "paypal/rest-api-sdk-php": "*"
+        "paymaya/paymaya-sdk": "0.0.2",
+        "paypal/rest-api-sdk-php": "*",
+        "psr/log": "1.0.2"
     },
     "require-dev": {
         "cakephp/bake": "^1.9.0",

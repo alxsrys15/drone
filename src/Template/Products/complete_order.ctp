@@ -73,8 +73,11 @@ foreach ($items as $item) {
 </div>
 
 <script type="text/javascript">
+	var success = '<?= $this->request->getQuery('success') ?>';
 	$(document).ready(function () {
-		shoppingCart.clearCart();
-		cartBadge();
+		if (success) {
+			shoppingCart.clearCart();
+			cartBadge();
+		}
 	});
 </script>
