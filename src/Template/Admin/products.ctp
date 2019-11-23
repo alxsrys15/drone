@@ -16,7 +16,8 @@
 						<th>Product name</th>
 						<th>Category</th>
 						<th>Price</th>
-						<th>Action</th>
+						<th>Stocks</th>
+						<!-- <th>Action</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -25,6 +26,15 @@
 							<td><?= $product->name ?></td>
 							<td><?= $product->category->name ?></td>
 							<td><?= number_format($product->price, 2) ?></td>
+							<td>
+								<?php 
+									$sku = 0;
+									foreach ($product->product_variants as $v) {
+										$sku += $v->sku;
+									}
+								 ?>
+								 <?= $sku ?>
+							</td>
 						</tr>
 					<?php endforeach ?>
 				</tbody>
