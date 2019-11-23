@@ -120,16 +120,18 @@ class UsersTable extends Table
 
     public function afterSave ($event, $entity) {
         $jwt = new JWT('secret', 'HS256', 3600, 10);
-        if ($entity->isNew()) {
-            $token = $jwt->encode([
-                'id' => $entity->id,
-                'email' => $entity->email
-            ]);
+        if ($entity->lib_user_roles_id === 2) {
+            if ($entity->isNew()) {
+                $token = $jwt->encode([
+                    'id' => $entity->id,
+                    'email' => $entity->email
+                ]);
 
-            $entity->verification_token = $token;
+                $entity->verification_token = $token;
 
-            if ($this->save($entity)) {
-                $this->getMailer('User')->send('welcome', [$entity]);
+                if ($this->save($entity)) {
+                    $this->getMailer('User')->send('welcome', [$entity]);
+                }
             }
         }
     }

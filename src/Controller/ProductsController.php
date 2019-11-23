@@ -40,13 +40,13 @@ class ProductsController extends AppController
     public function initialize () {
         parent::initialize();
         PayMayaSDK::getInstance()->initCheckout('pk-lNAUk1jk7VPnf7koOT1uoGJoZJjmAxrbjpj6urB8EIA', 'sk-fzukI3GXrzNIUyvXY3n16cji8VTJITfzylz5o5QzZMC');
-        $shopCustomization = new Customization();
-        $shopCustomization->customTitle = "Drone Clothing Co.";
-        $shopCustomization->logoUrl = ROUTER::url('/webroot/img/assets/drone_logo.jpeg', true);
-        $shopCustomization->iconUrl = ROUTER::url('/webroot/img/assets/drone_logo.jpeg', true);
-        $shopCustomization->appleTouchIconUrl = ROUTER::url('/img/assets/drone_logo.jpeg', true);
-        $shopCustomization->colorScheme = '#368d5c';
-        $shopCustomization->set();
+        // $shopCustomization = new Customization();
+        // $shopCustomization->customTitle = "Drone Clothing Co.";
+        // $shopCustomization->logoUrl = ROUTER::url('/webroot/img/assets/drone_logo.jpeg', true);
+        // $shopCustomization->iconUrl = ROUTER::url('/webroot/img/assets/drone_logo.jpeg', true);
+        // $shopCustomization->appleTouchIconUrl = ROUTER::url('/img/assets/drone_logo.jpeg', true);
+        // $shopCustomization->colorScheme = '#368d5c';
+        // $shopCustomization->set();
     }
 
     public function index()
@@ -64,7 +64,11 @@ class ProductsController extends AppController
 
         $products = $this->paginate($query);
 
-        $categories = $this->Products->Categories->find('all');
+        $categories = $this->Products->Categories->find('all', [
+            'conditions' => [
+                'is_active' => 1
+            ]
+        ]);
 
         $this->set(compact('products', 'categories'));
     }

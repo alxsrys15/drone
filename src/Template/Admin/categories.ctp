@@ -58,7 +58,7 @@
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<?= $this->Form->button('Add Category', ['type' => 'submit', 'class' => 'btn btn-primary']) ?>
 			</div>
-			</<?= $this->Form->create() ?>
+			</<?= $this->Form->end() ?>
 		</div>
 	</div>
 </div>
@@ -70,7 +70,7 @@
 		    cancelButton: 'btn btn-danger'
 		},
 		  	buttonsStyling: false
-		})
+		});
 	$(document).ready(function () {
 		$(document).on('click', '.btn-deactivate', function (e) {
 			e.preventDefault();

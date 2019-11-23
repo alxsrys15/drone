@@ -118,6 +118,9 @@
             var selected = $(this).val();
             $('#available_items').text(sku[selected]);
             $('#quantity').attr('max', sku[selected]);
+            if (sku[selected] <= 0) {
+                $('#add-to-cart-btn').prop('disabled', true);
+            }
         });
 
         $('#sizes').trigger('change');

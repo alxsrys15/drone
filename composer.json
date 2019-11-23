@@ -10,6 +10,7 @@
         "cakephp/cakephp": "3.8.*",
         "cakephp/migrations": "^2.0.0",
         "cakephp/plugin-installer": "^1.0",
+        "friendsofcake/cakephp-csvview": "~3.0",
         "mobiledetect/mobiledetectlib": "2.*",
         "paymaya/paymaya-sdk": "0.0.2",
         "paypal/rest-api-sdk-php": "*",

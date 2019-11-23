@@ -8,11 +8,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fas fa-phone-alt"></i> 0956-249-5904</a>
             </li> 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fas fa-fire-alt"></i> WHAT'S HOT!</a>
-            </li>  
+            </li>   -->
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fab fa-instagram"></i> #DRONECLOTHINGCO.</a>
+                <a class="nav-link" href="https://www.instagram.com/droneclothingco/"><i class="fab fa-instagram"></i> #DRONECLOTHINGCO.</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -47,21 +47,21 @@
                 <li class="nav-item">
                     <?= $this->Html->link('HOME', ['controller' => 'home', 'action' => 'index'], ['class' => 'nav-link']) ?>
                 </li>
-                <li class="nav-item {{ request()->is('shop') ? 'active' : '' }}">
+                <li class="nav-item">
                     <?= $this->Html->link('SHOP', '/shop', ['class' => 'nav-link']) ?>   
                 </li>
-                <li class="nav-item {{ request()->is('account') ? 'active' : '' }}">
+                <!-- <li class="nav-item">
                     <?= $this->Html->link('PROFILE', ['controller' => 'home', 'action' => 'index'], ['class' => 'nav-link']) ?>
                     
-                </li>
-                <li class="nav-item {{ request()->is('cart') ? 'active' : '' }}">
-                    <?= $this->Html->link('CART', ['controller' => 'home', 'action' => 'index'], ['class' => 'nav-link']) ?>
+                </li> -->
+                <li class="nav-item">
+                    <?= $this->Html->link('CART', '/cart', ['class' => 'nav-link']) ?>
                     
                 </li>
-                <li class="nav-item {{ request()->is('about') ? 'active' : '' }}">
+                <!-- <li class="nav-item">
                     <?= $this->Html->link('ABOUT', ['controller' => 'home', 'action' => 'index'], ['class' => 'nav-link']) ?>
                     
-                </li>
+                </li> -->
           </ul>
 
           <!-- Right Side Of Navbar -->
@@ -71,10 +71,10 @@
                     <a id="btn_cart" role="button" href="/cart" class="btn navbar-btn btn-primary right px-4">
                         <span class="badge badge-danger rounded-circle position-absolute king-badger cart-badge"></span><i class="fa fa-shopping-cart"></i>
                     </a>
-                    <button id="btn_srch" class="btn btn-primary navbar-btn px-4" type="button" data-toggle="collapse" data-target="#search">
+                    <!-- <button id="btn_srch" class="btn btn-primary navbar-btn px-4" type="button" data-toggle="collapse" data-target="#search">
                         <span class="sr-only">toggle search</span>
                         <i class="fa fa-search"></i>
-                    </button>
+                    </button> -->
                 </div>
             </ul>
         </div>

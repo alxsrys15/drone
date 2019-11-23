@@ -43,6 +43,8 @@ use Cake\Routing\Route\DashedRoute;
  * constructor in your `src/Application.php` file to change this behavior.
  *
  */
+
+Router::extensions(['csv']);
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {

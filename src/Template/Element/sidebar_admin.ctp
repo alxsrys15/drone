@@ -1,8 +1,35 @@
-<div class="nav flex-column nav-pills" id="v-pills-tab">
-	<a class="nav-link" href="#" ><i class="fa fa-tachometer-alt" aria-hidden="true"></i> Dashboard</a>
-	<?= $this->Html->link('<i class="fa fa-gift" aria-hidden="true"></i> Products', ['controller' => 'admin', 'action' => 'products'], ['class' => 'nav-link', 'escape' => false]) ?>
-	<?= $this->Html->link('<i class="fa fa-book" aria-hidden="true"></i> Categories', ['controller' => 'admin', 'action' => 'categories'], ['class' => 'nav-link', 'escape' => false]) ?>
-	<a class="nav-link" href="#"><i class="fa fa-user" aria-hidden="true"></i> View Customers</a>
-	<a class="nav-link" href="#"><i class="fa fa-book" aria-hidden="true"></i> Orders</a>
-	<a class="nav-link" href="#"><i class="fa fa-users" aria-hidden="true"></i> Users</a>
-</div>
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+	<a href="/admin">
+        <div class="sidebar-brand-text mx-3" style="color: white">
+        	DRONE CLOTHING
+        </div>
+	</a>
+	<hr class="sidebar-divider my-0">
+	<li class="nav-item">
+        <?= $this->Html->link('<i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span>', ['controller' => 'Admin', 'action' => 'index'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+       Master Data
+    </div>
+    <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-gift"></i><span>Products</span>', ['action' => 'products'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
+    <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-book"></i><span>Categories</span>', ['action' => 'categories'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
+    <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-users"></i><span>Users</span></a>', ['action' => 'users'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+       Sales
+    </div>
+    <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-shopping-cart"></i><span>Orders</span></a>', ['action' => 'orders'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
+    <hr class="sidebar-divider d-none d-md-block">
+    <!-- <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+     </div> -->
+</ul>

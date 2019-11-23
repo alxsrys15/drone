@@ -41,7 +41,7 @@ var shoppingCart = (function() {
   // Add to cart
   obj.addItemToCart = function(name, price, count, image, id, size_id, size_name) {
     for(var item in cart) {
-      if(cart[item].name === name) {
+      if(cart[item].name === name && cart[item].size_name === size_name) {
         cart[item].count ++;
         saveCart();
         return;
@@ -61,9 +61,10 @@ var shoppingCart = (function() {
     }
   };
   // Remove item from cart
-  obj.removeItemFromCart = function(name) {
+  obj.removeItemFromCart = function(name, size_name) {
       for(var item in cart) {
-        if(cart[item].name === name) {
+        if(cart[item].name === name && cart[item].size_name === size_name) {
+          console.log(name, size_name);
           cart[item].count --;
           if(cart[item].count === 0) {
             cart.splice(item, 1);

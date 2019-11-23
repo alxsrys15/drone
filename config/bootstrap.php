@@ -176,6 +176,8 @@ ServerRequest::addDetector('tablet', function ($request) {
     return $detector->isTablet();
 });
 
+Plugin::load('CsvView');
+
 /*
  * Enable immutable time objects in the ORM.
  *
@@ -210,3 +212,4 @@ function is_admin () {
     }
     return false;
 }
+

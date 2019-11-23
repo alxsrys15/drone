@@ -2,6 +2,16 @@
 	.invalid {
 		border: solid 1px red !important;
 	}
+	.spinner {
+		border: 1px solid;
+		position: fixed;
+		z-index: 1;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 50 50'%3E%3Cpath d='M28.43 6.378C18.27 4.586 8.58 11.37 6.788 21.533c-1.791 10.161 4.994 19.851 15.155 21.643l.707-4.006C14.7 37.768 9.392 30.189 10.794 22.24c1.401-7.95 8.981-13.258 16.93-11.856l.707-4.006z'%3E%3CanimateTransform attributeType='xml' attributeName='transform' type='rotate' from='0 25 25' to='360 25 25' dur='0.6s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E") center / 50px no-repeat;
+	}
 </style>
 
 <div class="container">
@@ -32,10 +42,12 @@
 						
 					</tbody>
 				</table>
-				<div class="text-center d-none" id="loader">
-				  	<div class="spinner-border spinner-border-lg" role="status">
-				    	<span class="sr-only">Loading...</span>
-				  	</div>
+				<div class="spinner d-none" id="loader">
+					<div class="text-center">
+					  	<div class="spinner-border spinner-border-lg" role="status">
+					    	<span class="sr-only">Loading...</span>
+					  	</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -49,7 +61,7 @@
 	              	<select class="form-control border-0" id="payment-select">
 	              		<option value="paypal">PAYPAL</option>
 	              		<option value="paymaya">PAYMAYA</option>
-	              		<option value="bank-deposit">BANK DEPOSIT</option>
+	              		<!-- <option value="bank-deposit">BANK DEPOSIT</option> -->
 	              	</select>
 	            </div>
 			</div>
@@ -131,19 +143,38 @@
 		populateOrderSummary();
 		$('#payment-select').trigger('change');
 		$('.btn-checkout').on('click', function () {
-			$('#items').val(JSON.stringify(shoppingCart.listCart()));
-			if ($('#shipping-address-input').val() == "") {
-				$('#shipping-address-input').addClass('is-invalid');
-				$('#shipping-address-input').focus();
+			var cart = shoppingCart.listCart();
+			if (cart.length > 0) {
+				$('#items').val(JSON.stringify(shoppingCart.listCart()));
+				if ($('#shipping-address-input').val() == "") {
+					$('#shipping-address-input').addClass('is-invalid');
+					$('#shipping-address-input').focus();
+					Swal.fire(
+		                'Error!',
+		                'Please provide a shipping address',
+		                'error'
+		            );
+		            return;
+				}
+				$('#shipping-address').val($('#shipping-address-input').val());
+				$('#cart-form').trigger('submit');
+			} else {
 				Swal.fire(
 	                'Error!',
-	                'Please provide a shipping address',
+	                'Your cart is empty',
 	                'error'
 	            );
 	            return;
 			}
-			$('#shipping-address').val($('#shipping-address-input').val());
-			$('#cart-form').trigger('submit');
+		});
+
+		$("#cart_table").on('click', '.remove-item', function () {
+			var name = $(this).data('name');
+			var size_name = $(this).data('size');
+			shoppingCart.removeItemFromCart(name, size_name);
+			populateCartTable();
+			populateOrderSummary();
+			cartBadge();
 		});
 	});
 </script>
