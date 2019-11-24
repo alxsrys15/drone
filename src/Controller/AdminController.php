@@ -46,7 +46,11 @@ class AdminController extends AppController
     }
 
     public function products () {
-    	$categories = $this->Products->Categories->find('list');
+    	$categories = $this->Products->Categories->find('list', [
+            'conditions' => [
+                'is_active' => 1
+            ]
+        ]);
     	$sizes = $this->Products->ProductVariants->Sizes->find('list', ['fields' => ['id', 'name']])->toArray();
     	$products = $this->Products->find('all', [
     		'contain' => [

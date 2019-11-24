@@ -256,7 +256,7 @@ return [
             'className' => Connection::class,
             'driver' => Mysql::class,
             'persistent' => false,
-            'host' => 'sql288.main-hosting.eu',
+            'host' => 'localhost'/* 'sql288.main-hosting.eu' */,
             /*
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
