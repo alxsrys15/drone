@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="card mt-5">
+    <!-- <div class="card mt-5">
         <div class="card-header text-center">
             <h5 class="panel-title">PRODUCTS</h5>
         </div>
@@ -28,6 +28,6 @@
                 </div>	
             </div>
         </div>
-    </div>	
+    </div> -->	
 </div>
     
