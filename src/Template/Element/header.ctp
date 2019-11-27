@@ -2,7 +2,7 @@
     .navbar-
 </style>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-first">
+<nav class="navbar navbar-expand-md navbar-light bg-light navbar-first">
     <div class="container">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
@@ -17,8 +17,15 @@
         </ul>
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <?php if ($this->request->getSession()->read('Auth.User.id')): ?>
-            <li class="nav-item">
-                <?= $this->Html->link('LOGOUT', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link']) ?>
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                        <?= $this->request->session()->read('Auth.User.first_name') . ' ' .$this->request->session()->read('Auth.User.last_name') ?>
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="z-index: 2000">
+                    <?= $this->Html->link('<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout', ['controller' => 'Users', 'action' => 'logout'], ['escape' => false, 'class' => 'dropdown-item']) ?>
+                </div>
             </li>
             <?php else: ?>
             <li class="nav-item">

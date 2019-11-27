@@ -10,6 +10,8 @@ use Cake\Validation\Validator;
  * Products Model
  *
  * @property \App\Model\Table\CategoriesTable&\Cake\ORM\Association\BelongsTo $Categories
+ * @property &\Cake\ORM\Association\BelongsTo $Genders
+ * @property &\Cake\ORM\Association\HasMany $OrderDetails
  * @property \App\Model\Table\ProductVariantsTable&\Cake\ORM\Association\HasMany $ProductVariants
  *
  * @method \App\Model\Entity\Product get($primaryKey, $options = [])
@@ -44,6 +46,13 @@ class ProductsTable extends Table
         $this->belongsTo('Categories', [
             'foreignKey' => 'category_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Genders', [
+            'foreignKey' => 'gender_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->hasMany('OrderDetails', [
+            'foreignKey' => 'product_id'
         ]);
         $this->hasMany('ProductVariants', [
             'foreignKey' => 'product_id'
@@ -108,6 +117,7 @@ class ProductsTable extends Table
     {
         $rules->add($rules->isUnique(['id']));
         $rules->add($rules->existsIn(['category_id'], 'Categories'));
+        $rules->add($rules->existsIn(['gender_id'], 'Genders'));
 
         return $rules;
     }

@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-3">
+        <div class="col-sm-3">
             <?= $this->element('sidebar_shop') ?>
         </div>
-        <div class="col-9">
+        <div class="col-sm-9">
             <div class="row">
                 <?= $this->element('shop') ?>
             </div>

@@ -1,7 +1,7 @@
 <?php $isShop = $this->request->getParam('controller') === "Products" ?>
 
 <?php foreach ($products as $product): ?>
-	<div class="<?= $isShop ? 'col-4' : 'col-3' ?>">
+	<div class="<?= $isShop ? 'col-sm-4' : 'col-sm-3' ?>">
 		<div class="card shadow-lg rounded mb-3">
 			<?= $this->Html->link(
 					$this->Html->image('product_images/' . $product->img1, ['class' => 'card-img-top', 'height' => '200']),

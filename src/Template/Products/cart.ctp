@@ -68,7 +68,20 @@
 			<div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Shipping Address</div>
 			<div class="p-4">
             	<p class="font-italic mb-4">Please provide an accurate shipping address below</p>
-            	<textarea name="" cols="30" rows="2" class="form-control" id="shipping-address-input"></textarea>
+            	<div class="form-row">
+            		<div class="col-sm-12 form-group">
+            			<input type="text" id="street" class="form-control" placeholder="Street Address">
+            		</div>
+            		<div class="col-sm-4 form-group">
+            			<input type="text" id="brgy" class="form-control" placeholder="Barangay">
+            		</div>
+            		<div class="col-sm-4 form-group">
+            			<input type="text" id="cty" class="form-control" placeholder="City/Municipality">
+            		</div>
+            		<div class="col-sm-4 form-group">
+            			<input type="text" id="prov" class="form-control" placeholder="Province">
+            		</div>
+            	</div>
           	</div>
 		</div>
 		<div class="col-lg-6">
@@ -99,7 +112,10 @@
 <?= $this->Form->create(null, ['id' => 'cart-form']) ?>
 <?= $this->Form->control('payment_type', ['type' => 'hidden']) ?>
 <?= $this->Form->control('items', ['type' => 'hidden']) ?>
-<?= $this->Form->control('shipping_address', ['type' => 'hidden']) ?>
+<?= $this->Form->control('street_address', ['type' => 'hidden']) ?>
+<?= $this->Form->control('barangay', ['type' => 'hidden']) ?>
+<?= $this->Form->control('city', ['type' => 'hidden']) ?>
+<?= $this->Form->control('province', ['type' => 'hidden']) ?>
 <?= $this->Form->end() ?>
 
 <script type="text/javascript">
@@ -146,9 +162,9 @@
 			var cart = shoppingCart.listCart();
 			if (cart.length > 0) {
 				$('#items').val(JSON.stringify(shoppingCart.listCart()));
-				if ($('#shipping-address-input').val() == "") {
-					$('#shipping-address-input').addClass('is-invalid');
-					$('#shipping-address-input').focus();
+				if ($('#street').val() == "") {
+					$('#street').addClass('is-invalid');
+					$('#street').focus();
 					Swal.fire(
 		                'Error!',
 		                'Please provide a shipping address',
@@ -156,7 +172,11 @@
 		            );
 		            return;
 				}
-				$('#shipping-address').val($('#shipping-address-input').val());
+				$('#street-address').val($('#street').val());
+				$('#barangay').val($('#brgy').val());
+				$('#city').val($('#cty').val());
+				$('#province').val($('#prov').val());
+
 				$('#cart-form').trigger('submit');
 			} else {
 				Swal.fire(

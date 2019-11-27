@@ -21,6 +21,9 @@
     <li class="nav-item">
         <?= $this->Html->link('<i class="fa fa-users"></i><span>Users</span></a>', ['action' => 'users'], ['class' => 'nav-link', 'escape' => false]) ?>
     </li>
+    <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-users"></i><span>Customers</span></a>', ['action' => 'customers'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
        Sales

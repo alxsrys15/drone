@@ -58,9 +58,15 @@
 						<label for="name" class="col-form-label">Name:</label>
 						<?= $this->Form->input('name', ['class' => 'form-control', 'required', 'autocomplete' => 'off', 'label' => false]) ?>
 					</div>
-					<div class="form-group">
-						<label for="category-id" class="col-form-label">Category:</label>
-						<?= $this->Form->input('category_id', ['class' => 'form-control', 'required', 'autocomplete' => 'off', 'label' => false, 'type' => 'select']) ?>
+					<div class="row form-group">
+						<div class="col-sm-6">
+							<label for="category-id" class="col-form-label">Category:</label>
+							<?= $this->Form->input('category_id', ['class' => 'form-control', 'required', 'autocomplete' => 'off', 'label' => false, 'type' => 'select']) ?>
+						</div>
+						<div class="col-sm-6">
+							<label for="gender-id" class="col-form-label">For Whom:</label>
+							<?= $this->Form->input('gender_id', ['class' => 'form-control', 'required', 'autocomplete' => 'off', 'label' => false, 'type' => 'select']) ?>
+						</div>
 					</div>
 					<div class="form-group">
 						<label for="price" class="col-form-label">Price:</label>

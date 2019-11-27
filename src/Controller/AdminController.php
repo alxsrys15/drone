@@ -46,11 +46,7 @@ class AdminController extends AppController
     }
 
     public function products () {
-    	$categories = $this->Products->Categories->find('list', [
-            'conditions' => [
-                'is_active' => 1
-            ]
-        ]);
+    	$categories = $this->Products->Categories->find('list');
     	$sizes = $this->Products->ProductVariants->Sizes->find('list', ['fields' => ['id', 'name']])->toArray();
     	$products = $this->Products->find('all', [
     		'contain' => [
@@ -59,7 +55,8 @@ class AdminController extends AppController
     			'Categories'
     		]
     	]);
-    	$this->set(compact('categories', 'sizes', 'products'));
+        $genders = $this->Products->Genders->find('list');
+    	$this->set(compact('categories', 'sizes', 'products','genders'));
     }
 
     public function productAdd () {

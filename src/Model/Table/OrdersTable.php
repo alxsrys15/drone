@@ -72,11 +72,6 @@ class OrdersTable extends Table
             ->notEmptyString('total');
 
         $validator
-            ->scalar('shipping_address')
-            ->maxLength('shipping_address', 255)
-            ->allowEmptyString('shipping_address');
-
-        $validator
             ->scalar('payment_type')
             ->maxLength('payment_type', 45)
             ->allowEmptyString('payment_type');
@@ -85,6 +80,26 @@ class OrdersTable extends Table
             ->scalar('payment_token')
             ->maxLength('payment_token', 255)
             ->allowEmptyString('payment_token');
+
+        $validator
+            ->scalar('street_address')
+            ->maxLength('street_address', 255)
+            ->allowEmptyString('street_address');
+
+        $validator
+            ->scalar('barangay')
+            ->maxLength('barangay', 255)
+            ->allowEmptyString('barangay');
+
+        $validator
+            ->scalar('city')
+            ->maxLength('city', 255)
+            ->allowEmptyString('city');
+
+        $validator
+            ->scalar('province')
+            ->maxLength('province', 255)
+            ->allowEmptyString('province');
 
         return $validator;
     }

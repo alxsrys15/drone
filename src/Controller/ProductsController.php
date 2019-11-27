@@ -57,20 +57,20 @@ class ProductsController extends AppController
         $query = $this->Products->find('all');
 
         if (!empty($this->request->query)) {
-            if (!empty($this->request->query['category'])) {
+            if (!empty($this->request->query['category']) && isset($this->request->query['category'])) {
                 $query->where(['category_id' => $this->request->query['category']]);
+            }
+            if (!empty($this->request->query['gender']) && isset($this->request->query['category'])) {
+                $query->where(['gender_id' => $this->request->query['gender']]);
             }
         }
 
         $products = $this->paginate($query);
 
-        $categories = $this->Products->Categories->find('all', [
-            'conditions' => [
-                'is_active' => 1
-            ]
-        ]);
+        $categories = $this->Products->Categories->find('all');
+        $genders = $this->Products->Genders->find('all');
 
-        $this->set(compact('products', 'categories'));
+        $this->set(compact('products', 'categories', 'genders'));
     }
 
     /**

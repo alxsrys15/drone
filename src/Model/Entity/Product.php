@@ -8,6 +8,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $category_id
+ * @property int $gender_id
  * @property string $name
  * @property string $img1
  * @property string|null $img2
@@ -33,6 +34,7 @@ class Product extends Entity
      */
     protected $_accessible = [
         'category_id' => true,
+        'gender_id' => true,
         'name' => true,
         'img1' => true,
         'img2' => true,

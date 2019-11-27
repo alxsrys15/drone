@@ -9,12 +9,15 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $user_id
  * @property int $total
- * @property string|null $shipping_address
  * @property string|null $payment_type
  * @property int $lib_status_code_id
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  * @property string|null $payment_token
+ * @property string|null $street_address
+ * @property string|null $barangay
+ * @property string|null $city
+ * @property string|null $province
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\LibStatusCode $lib_status_code
@@ -34,12 +37,15 @@ class Order extends Entity
     protected $_accessible = [
         'user_id' => true,
         'total' => true,
-        'shipping_address' => true,
         'payment_type' => true,
         'lib_status_code_id' => true,
         'created' => true,
         'modified' => true,
         'payment_token' => true,
+        'street_address' => true,
+        'barangay' => true,
+        'city' => true,
+        'province' => true,
         'user' => true,
         'lib_status_code' => true,
         'order_details' => true
