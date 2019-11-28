@@ -33,7 +33,10 @@
 				<tr>
 					<td><?= $order->user->first_name . ' ' . $order->user->last_name ?></td>
 					<td><?= 'P ' . $order->total ?></td>
-					<td><?= $order->shipping_address ?></td>
+					<td>
+						<?= $branch->street_address . ' ' . $branch->barangay . ' ' . $branch->city . ' ' . $branch->province ?>
+							
+					</td>
 					<td><?= $order->payment_type ?></td>
 					<td><?= $order->created->setTimezone('Asia/Manila') ?></td>
 					<td><?= $order->lib_status_code->name ?></td>

@@ -215,6 +215,16 @@ class AdminController extends AppController
                 'Orders.created' => 'DESC'
             ]
         ]);
+
+        if (!empty($this->request->data['search'])) {
+            $customers->where(['OR' => [
+                'Users.first_name LIKE' => '%'.$this->request->data['search'].'%',
+                'Users.last_name LIKE' => '%'.$this->request->data['search'].'%',
+                'Orders.city LIKE' => '%'.$this->request->data['search'].'%',
+                'Orders.province LIKE' => '%'.$this->request->data['search'].'%',
+                'Orders.payment_type LIKE' => '%'.$this->request->data['search'].'%'
+            ]]);
+        }
         $this->set(compact('orders'));
     }
     
