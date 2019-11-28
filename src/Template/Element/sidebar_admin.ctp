@@ -24,12 +24,21 @@
     <li class="nav-item">
         <?= $this->Html->link('<i class="fa fa-users"></i><span>Customers</span></a>', ['action' => 'customers'], ['class' => 'nav-link', 'escape' => false]) ?>
     </li>
+    <!-- <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-code-branch"></i><span>Branches</span></a>', ['action' => 'branches'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li> -->
+    <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-money-bill-wave-alt"></i><span>Payment Methods</span></a>', ['action' => 'payments'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
        Sales
     </div>
     <li class="nav-item">
         <?= $this->Html->link('<i class="fa fa-shopping-cart"></i><span>Orders</span></a>', ['action' => 'orders'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
+    <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-file-pdf"></i><span>Reports</span></a>', ['action' => 'reports'], ['class' => 'nav-link', 'escape' => false]) ?>
     </li>
     <hr class="sidebar-divider d-none d-md-block">
     <!-- <div class="text-center d-none d-md-inline">

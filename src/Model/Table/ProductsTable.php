@@ -121,4 +121,11 @@ class ProductsTable extends Table
 
         return $rules;
     }
+
+    public function afterSave ($event, $entity) {
+        if ($entity->isNew()) {
+            $entity->product_code = "PROD" . $entity->id . $entity->category_id . $entity->gender_id . "-" . date('Y');
+            $this->save($entity);
+        }
+    }
 }

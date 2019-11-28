@@ -1,9 +1,9 @@
 <div class="jumbotron">
 	<div class="row">
-		<div class="col-3">
+		<div class="col-sm-3">
 			<h2>Product Categories</h2>
 		</div>
-		<div class="col-9">
+		<div class="col-sm-9">
 			<!-- <button class="btn btn-primary float-right" data-toggle="modal" data-target="#product_add_modal"><i class="fas fa-plus"></i> Add Product</button> -->
 			<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#category_add_modal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add Category</button>
 		</div>
@@ -15,7 +15,6 @@
 					<tr>
 						<th>Category Name</th>
 						<th>Status</th>
-						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -23,13 +22,6 @@
 					<tr>
 						<td><?= $category->name ?></td>
 						<td><?= $category->is_active ? 'Active' : 'Not Active' ?></td>
-						<td>
-							<?php if ($category->is_active): ?>
-							<?= $this->Html->link('<i class="fa fa-trash" aria-hidden="true"></i> Deactivate',['controller' => 'admin', 'action' => 'categoriesDelete', $category->id, 0] ,['class' => 'btn btn-danger btn-sm btn-deactivate', 'escape' => false]) ?>
-							<?php else: ?>
-							<?= $this->Html->link('<i class="fa fa-plus" aria-hidden="true"></i> Activate',['controller' => 'admin', 'action' => 'categoriesDelete', $category->id, true] ,['class' => 'btn btn-success btn-sm btn-deactivate', 'escape' => false]) ?>
-							<?php endif ?>
-						</td>
 					</tr>
 					<?php endforeach ?>
 				</tbody>

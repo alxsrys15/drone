@@ -59,9 +59,9 @@
 	            <p class="font-italic mb-4">Please select a payment method</p>
 	            <div class="input-group mb-4 border rounded-pill p-2">
 	              	<select class="form-control border-0" id="payment-select">
-	              		<option value="paypal">PAYPAL</option>
-	              		<option value="paymaya">PAYMAYA</option>
-	              		<!-- <option value="bank-deposit">BANK DEPOSIT</option> -->
+	              		<?php foreach ($payment_types as $p): ?>
+	              		<option value="<?= $p ?>"><?= $p ?></option>
+	              		<?php endforeach ?>
 	              	</select>
 	            </div>
 			</div>

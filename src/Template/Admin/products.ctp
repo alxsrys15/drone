@@ -1,48 +1,58 @@
-<div class="jumbotron">
-	<div class="row">
-		<div class="col-3">
-			<h1>Product List</h1>
-		</div>
-		<div class="col-9">
-			<!-- <button class="btn btn-primary float-right" data-toggle="modal" data-target="#product_add_modal"><i class="fas fa-plus"></i> Add Product</button> -->
-			<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#product_add_modal" data-whatever="@mdo"><i class="fas fa-plus"></i> Add Product</button>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12">
-			<table class="table table-stripped table-condensed table-light table-bordered text-center">
-				<thead class="thead-dark">
-					<tr>
-						<th>Product name</th>
-						<th>Category</th>
-						<th>Price</th>
-						<th>Stocks</th>
-						<!-- <th>Action</th> -->
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ($products as $product): ?>
-						<tr>
-							<td><?= $product->name ?></td>
-							<td><?= $product->category->name ?></td>
-							<td><?= number_format($product->price, 2) ?></td>
-							<td>
-								<?php 
-									$sku = 0;
-									foreach ($product->product_variants as $v) {
-										$sku += $v->sku;
-									}
-								 ?>
-								 <?= $sku ?>
-							</td>
-						</tr>
-					<?php endforeach ?>
-				</tbody>
-			</table>
-		</div>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+	<h1 class="h3 mb-0 text-gray-800">Products</h1>
+	<button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-target="#product_add_modal" data-toggle="modal"><i class="fas fa-plus fa-sm text-white-50"></i> Add Product</button>
+</div>
+<div class="form-row">
+	<div class="col-sm-4 form-group">
+		<?= $this->Form->create() ?>
+			<div class="input-group mb-3">
+				<input type="text" name="search" placeholder="search" class="form-control" value="<?=  isset($this->request->data['search']) ? $this->request->data['search'] : '' ?>">
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="submit">
+						<i class="fas fa-search text-gray" aria-hidden="true"></i>
+    				</button>
+				</div>
+			</div>
+		<?= $this->Form->end() ?>
 	</div>
 </div>
-
+<div class="row">
+	<div class="col-xl-12 col-lg-12">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Product name</th>
+					<th>Product Code</th>
+					<th>Category</th>
+					<th>For who</th>
+					<th>Price</th>
+					<th>Stocks</th>
+					<!-- <th>Action</th> -->
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($products as $product): ?>
+				<tr>
+					<td><?= $product->name ?></td>
+					<td><?= $product->product_code ?></td>
+					<td><?= $product->category->name ?></td>
+					<td><?= $product->gender->name ?></td>
+					<td><?= number_format($product->price, 2) ?></td>
+					<td>
+						<?php 
+							$sku = 0;
+							foreach ($product->product_variants as $v) {
+								$sku += $v->sku;
+							}
+						 ?>
+						 <?= $sku ?>
+					</td>
+				</tr>
+				<?php endforeach ?>
+			</tbody>
+		</table>
+	</div>
+</div>
 <div class="modal fade" id="product_add_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">

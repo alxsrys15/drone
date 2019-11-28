@@ -23,11 +23,14 @@ class AdminController extends AppController
     	$this->loadModel('Products');
         $this->loadModel('Orders');
         $this->loadModel('Users');
+        $this->loadModel('Payments');
+        $this->loadModel('Branches');
         $this->viewBuilder()->setLayout('admin');
     }
 
     public function index () {
     	$orders = $this->Orders->find('all', ['contain' => 'OrderDetails'])->toArray();
+
         $monthly_sales = $this->Orders->find();
 
         $total_sales = 0;
@@ -52,11 +55,58 @@ class AdminController extends AppController
     		'contain' => [
     			'ProductVariants',
     			'ProductVariants.Sizes',
-    			'Categories'
+    			'Categories',
+                'Genders'
     		]
     	]);
+        if (!empty($this->request->data['search'])) {
+            $products->where(['OR' => [
+                'Products.name LIKE' => '%'.$this->request->data['search'].'%',
+                'Categories.name LIKE' => '%'.$this->request->data['search'].'%'
+            ]]);
+        }
         $genders = $this->Products->Genders->find('list');
     	$this->set(compact('categories', 'sizes', 'products','genders'));
+    }
+
+    public function reports () {
+        if ($this->request->is('post')) {
+            if (empty($this->request->data['start_data']) || empty($this->request->data['end_date'])) {
+                $this->Flash->error(__('Please enter date range.'));
+                return;
+            }
+            $this->response->download('report.csv');
+            $data = $this->Orders->find('all', [
+                'contain' => [
+                    'Users',
+                    'LibStatusCodes'
+                ],
+                'order' => [
+                    'Orders.created' => 'DESC'
+                ]
+            ]);
+
+            $data->where(function ($q) {
+                return $q->between('created', $this->request->data['start_date'], $this->request->data['end_date']);
+            });
+
+            $export_data = [];
+            foreach ($data as $d) {
+                $export_data[] = [
+                    'customer' => $d->user->first_name . ' ' . $d->user->last_name,
+                    'total' => $d->total,
+                    'shipping_address' => $d->shipping_address,
+                    'payment_type' => $d->payment_type,
+                    'date' => $d->created->setTimezone('Asia/Manila'),
+                    'status' => $d->lib_status_code->name
+                ];
+            }
+            $_serialize = 'export_data';
+            $_header = count($export_data) > 0 ? array_keys($export_data[0]) : [];
+            $this->set(compact('export_data', '_serialize', '_header'));
+            $this->viewBuilder()->className('CsvView.Csv');
+            return; 
+        }
     }
 
     public function productAdd () {
@@ -94,7 +144,30 @@ class AdminController extends AppController
                 'lib_user_roles_id' => 1
             ]
         ]);
+        if (!empty($this->request->data['search'])) {
+            $users->where(['OR' => [
+                'Users.first_name LIKE' => '%'.$this->request->data['search'].'%',
+                'Users.last_name LIKE' => '%'.$this->request->data['search'].'%'
+            ]]);
+        }
         $this->set(compact('users'));
+    }
+
+    public function customers () {
+        $customers = $this->Users->find('all', [
+            'conditions' => [
+                'lib_user_roles_id' => 2
+            ]
+        ]);
+
+        if (!empty($this->request->data['search'])) {
+            $customers->where(['OR' => [
+                'Users.first_name LIKE' => '%'.$this->request->data['search'].'%',
+                'Users.last_name LIKE' => '%'.$this->request->data['search'].'%'
+            ]]);
+        }
+
+        $this->set(compact('customers'));
     }
 
     public function usersDelete ($id, $active) {
@@ -198,6 +271,52 @@ class AdminController extends AppController
             }
         }
         echo json_encode($returnData);
+    }
+
+    public function branches () {
+        $branches = $this->Branches->find('all');
+        
+        
+        $this->set(compact('branches'));
+    }
+
+    public function branchAdd () {
+        if ($this->request->is('post')) {
+            if ($this->Branches->save($this->Branches->newEntity($this->request->getData()))) {
+                $this->Flash->success(__('Branch saved.'));
+            }
+        }
+        return $this->redirect(['action' => 'branches']);
+    }
+
+    public function branchTransaction ($id) {
+        $products = $this->Products->find('all', [
+            'contain' => [
+                'ProductVariants',
+                'ProductVariants.Sizes'
+            ]
+        ]);
+        if ($id) {
+            $branch = $this->Branches->get($id);
+            $this->set(compact('branch', 'products'));
+        }
+    }
+
+    public function payments () {
+        $payments = $this->Payments->find('all');
+
+        $this->set(compact('payments'));
+    }
+
+    public function paymentChangeStatus ($id, $active = 0) {
+        if ($id) {
+            $payment = $this->Payments->get($id);
+            $payment->is_active = $active;
+            if ($this->Payments->save($payment)) {
+                $this->Flash->success(__('Payment method updated.'));
+            }
+        }
+        return $this->redirect(['action' => 'payments']);
     }
 
     public function download () {

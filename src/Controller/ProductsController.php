@@ -168,14 +168,23 @@ class ProductsController extends AppController
     }
 
     public function cart () {
+        $this->loadModel('Payments');
+        $payment_types = $this->Payments->find('list', [
+            'fields' => [
+                'name'
+            ],
+            'conditions' => [
+                'is_active' => 1
+            ]
+        ]);
         if ($this->request->is('post')) {
             if ($this->Auth->User('id')) {
                 $payment_type = $this->request->getData()['payment_type'];
                 $items = json_decode($this->request->getData()['items'], true);
                 $shipping_address = $this->request->getData()['shipping_address'];
-                if ($payment_type === "paypal") {
+                if ($payment_type === "PAYPAL") {
                     $this->processPaypal($items, $shipping_address);
-                } elseif ($payment_type === "paymaya") {
+                } elseif ($payment_type === "PAYMAYA") {
                     $this->processPaymaya($items, $shipping_address);
                 }
             } else {
@@ -183,6 +192,7 @@ class ProductsController extends AppController
                 return $this->redirect(['controller' => 'users', 'action' => 'login']);
             }
         }
+        $this->set(compact('payment_types'));
     }
 
     public function populateCartTable () {

@@ -2,6 +2,20 @@
 	<h1 class="h3 mb-0 text-gray-800">Orders</h1>
 	<!-- <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-target="#users_add_modal" data-toggle="modal"><i class="fas fa-plus fa-sm text-white-50"></i> Add Admin User</button> -->
 </div>
+<div class="form-row">
+	<div class="col-sm-4 form-group">
+		<?= $this->Form->create() ?>
+			<div class="input-group mb-3">
+				<input type="text" name="search" placeholder="search" class="form-control" value="<?=  isset($this->request->data['search']) ? $this->request->data['search'] : '' ?>">
+				<div class="input-group-append">
+					<button class="btn btn-primary" type="submit">
+						<i class="fas fa-search text-gray" aria-hidden="true"></i>
+    				</button>
+				</div>
+			</div>
+		<?= $this->Form->end() ?>
+	</div>
+</div>
 <div class="row">
 	<div class="col-xl-12 col-lg-12">
 		<table class="table">

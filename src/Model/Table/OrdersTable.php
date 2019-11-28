@@ -46,6 +46,10 @@ class OrdersTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Branches', [
+            'foreignKey' => 'branch_id',
+            'joinType' => 'INNER'
+        ]);
         $this->belongsTo('LibStatusCodes', [
             'foreignKey' => 'lib_status_code_id',
             'joinType' => 'INNER'
