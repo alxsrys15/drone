@@ -25,6 +25,19 @@
     <?= $this->fetch('css') ?>
 </head>
 <body id="page-top">
+	<style type="text/css">
+		.print {
+			display: none;
+		}
+		@media print {
+			#wrapper {
+				display: none;
+			}
+			.print {
+				display: block;
+			}
+		}
+	</style>
 	<div id="wrapper">
 		<?= $this->element('sidebar_admin') ?>
 		<div id="content-wrapper" class="d-flex flex-column">
@@ -34,8 +47,12 @@
 					<?= $this->Flash->render() ?>
 					<?= $this->fetch('content') ?>
 				</div>
+				
 			</div>
 		</div>
+	</div>
+	<div class="print">
+		asdasdasd
 	</div>
 	
     <?= $this->fetch('script') ?>

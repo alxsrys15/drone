@@ -34,7 +34,7 @@
 					<td><?= $order->user->first_name . ' ' . $order->user->last_name ?></td>
 					<td><?= 'P ' . $order->total ?></td>
 					<td>
-						<?= $branch->street_address . ' ' . $branch->barangay . ' ' . $branch->city . ' ' . $branch->province ?>
+						<?= $order->street_address . ' ' . $order->barangay . ' ' . $order->city . ' ' . $order->province ?>
 							
 					</td>
 					<td><?= $order->payment_type ?></td>

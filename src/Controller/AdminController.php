@@ -71,11 +71,12 @@ class AdminController extends AppController
 
     public function reports () {
         if ($this->request->is('post')) {
-            if (empty($this->request->data['start_data']) || empty($this->request->data['end_date'])) {
+            // pr($this->request->data);die();
+            if (empty($this->request->data['start_date']) || empty($this->request->data['end_date'])) {
                 $this->Flash->error(__('Please enter date range.'));
                 return;
             }
-            $this->response->download('report.csv');
+            
             $data = $this->Orders->find('all', [
                 'contain' => [
                     'Users',
@@ -85,27 +86,25 @@ class AdminController extends AppController
                     'Orders.created' => 'DESC'
                 ]
             ]);
+            $start_date = date('Y-m-d H:i:s', strtotime($this->request->data['start_date'] . ' 00:00:00'));
+            $end_date = date('Y-m-d H:i:s', strtotime($this->request->data['end_date'] . ' 23:59:59'));
 
-            $data->where(function ($q) {
-                return $q->between('created', $this->request->data['start_date'], $this->request->data['end_date']);
+            $data->where(function ($q) use ($start_date, $end_date) {
+                return $q->between('Orders.created', $start_date, $end_date);
             });
-
+            // pr($data);die();
             $export_data = [];
             foreach ($data as $d) {
                 $export_data[] = [
                     'customer' => $d->user->first_name . ' ' . $d->user->last_name,
                     'total' => $d->total,
-                    'shipping_address' => $d->shipping_address,
+                    'shipping_address' => $d->street_address . ' ' . $d->barangay . ' ' . $d->city . ' ' . $d->province,
                     'payment_type' => $d->payment_type,
                     'date' => $d->created->setTimezone('Asia/Manila'),
                     'status' => $d->lib_status_code->name
                 ];
             }
-            $_serialize = 'export_data';
-            $_header = count($export_data) > 0 ? array_keys($export_data[0]) : [];
-            $this->set(compact('export_data', '_serialize', '_header'));
-            $this->viewBuilder()->className('CsvView.Csv');
-            return; 
+            $this->set(compact('export_data'));
         }
     }
 
