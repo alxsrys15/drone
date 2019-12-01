@@ -169,6 +169,7 @@ class ProductsController extends AppController
 
     public function cart () {
         $this->loadModel('Payments');
+        $this->loadModel('ShippingFee');
         $payment_types = $this->Payments->find('list', [
             'fields' => [
                 'name'
@@ -177,6 +178,7 @@ class ProductsController extends AppController
                 'is_active' => 1
             ]
         ]);
+        $shipping = $this->ShippingFee->find('all')->first();
         if ($this->request->is('post')) {
             if ($this->Auth->User('id')) {
                 $payment_type = $this->request->getData()['payment_type'];
@@ -192,7 +194,7 @@ class ProductsController extends AppController
                 return $this->redirect(['controller' => 'users', 'action' => 'login']);
             }
         }
-        $this->set(compact('payment_types'));
+        $this->set(compact('payment_types', 'shipping'));
     }
 
     public function populateCartTable () {
@@ -204,7 +206,9 @@ class ProductsController extends AppController
     }
 
     private function processPaymaya ($items, $shipping_address) {
+        $this->loadModel('ShippingFee');
         $jwt = new JWT('secret', 'HS256', 3600, 10);
+        $shipping_fee = $this->ShippingFee->find('all')->first();
         if (!empty($items)) {
             $total_amount = 0;
             $paymaya_items = [];
@@ -234,7 +238,7 @@ class ProductsController extends AppController
                 'value' => $total_amount + 100,
                 'currency' => 'PHP',
                 'details' => [
-                    'shippingFee' => 100
+                    'shippingFee' => $shipping_fee->shipping_fee
                 ]
             ];
             $itemCheckout->items = $paymaya_items;
@@ -251,7 +255,8 @@ class ProductsController extends AppController
 
     private function processPaypal ($items, $shipping_address) {
         $jwt = new JWT('secret', 'HS256', 3600, 10);
-
+        $this->loadModel('ShippingFee');
+        $shipping_fee = $this->ShippingFee->find('all')->first();
         if (!empty($items)) {
             $paypalItemList = new ItemList();
             $total_amount = 0;
@@ -279,7 +284,7 @@ class ProductsController extends AppController
                             'total' => $total_amount + 100,
                             'currency' => 'PHP',
                             'details' => [
-                                'shipping' => 100,
+                                'shipping' => $shipping_fee->shipping_fee,
                                 'sub_total' => $total_amount
                             ]
                         ],
@@ -317,6 +322,7 @@ class ProductsController extends AppController
                         $total += $i['total'];
                         $newOrderDetails[] = [
                             'product_id' => $i['id'],
+                            'size' => $i['size_name'],
                             'quantity' => $i['count']
                         ];
                     }

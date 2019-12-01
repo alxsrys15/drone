@@ -1,5 +1,5 @@
 <div class="container-fluid" id="slider">
-	<div class="row">
+	<div class="row ml-0 mr-0">
 		<div class="col-md-12 px-0">
 			<div id="c1_indicator" class="carousel slide" data-ride="carousel">
 				<ol class="carousel-indicators">

@@ -28,7 +28,7 @@
         <?= $this->Html->link('<i class="fa fa-code-branch"></i><span>Branches</span></a>', ['action' => 'branches'], ['class' => 'nav-link', 'escape' => false]) ?>
     </li> -->
     <li class="nav-item">
-        <?= $this->Html->link('<i class="fa fa-money-bill-wave-alt"></i><span>Payment Methods</span></a>', ['action' => 'payments'], ['class' => 'nav-link', 'escape' => false]) ?>
+        <?= $this->Html->link('<i class="fa fa-money-bill-wave-alt"></i><span>Payments</span></a>', ['action' => 'payments'], ['class' => 'nav-link', 'escape' => false]) ?>
     </li>
     <hr class="sidebar-divider">
     <div class="sidebar-heading">

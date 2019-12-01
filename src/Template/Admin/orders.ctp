@@ -41,6 +41,10 @@
 					<td><?= $order->created->setTimezone('Asia/Manila') ?></td>
 					<td><?= $order->lib_status_code->name ?></td>
 					<td>
+						<button class="btn btn-primary btn-sm" data-id="<?= $order->id ?>" data-toggle="modal" data-target="#order-view-modal">
+							<i class="fa fa-eye"></i>
+							View
+						</button>
 						<?php 
 							switch ($order->lib_status_code_id) {
 								case 1:
@@ -61,6 +65,42 @@
 				<?php endforeach ?>
 			</tbody>
 		</table>
+	</div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="order-view-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">View Order</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          	<span aria-hidden="true">&times;</span>
+		        </button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="table" id="order-view-table">
+							<thead>
+								<th>Product</th>
+								<th>Size</th>
+								<th>Quantity</th>
+								<th>Price</th>
+								<th>Total</th>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>						
+					</div>
+					<div class="col-sm-12" align="center" style="display: none" id="loader">
+						<div class="spinner-border" role="status">
+						  	<span class="sr-only">Loading...</span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -85,6 +125,40 @@
 				if (result.value) {
 					window.location.href = $(this).attr('href');
 				}
+			});
+		});
+		$('#order-view-modal').on('show.bs.modal', function (e) {
+			$('#order-view-table tbody').html('');
+			var trigger = e.relatedTarget;
+			$.ajax({
+				headers: {
+	        		'X-CSRF-Token': csrfToken
+	    		},
+	    		url: url + 'admin/getOrder/?id=' + $(trigger).data('id'),
+	    		dataType: 'json',
+	    		type: 'get',
+	    		beforeSend: function () {
+	    			$('#loader').show();
+	    		},	
+	    		success: function (data) {
+	    			$('#loader').hide();
+	    			let table_data = '';
+	    			$.each(data, function (i, p) {
+	    				table_data += `
+	    					<tr>
+	    						<td>${p.name}</td>
+	    						<td>${p.size}</td>
+	    						<td>${p.quantity}</td>
+	    						<td>${p.price}</td>
+	    						<td>${p.total}</td>
+	    					</tr>
+	    				`;
+	    			});
+	    			$('#order-view-table tbody').html(table_data);
+	    		},
+	    		error: function (err) {
+	    			console.log(err.responseText);
+	    		}
 			});
 		});
 	})

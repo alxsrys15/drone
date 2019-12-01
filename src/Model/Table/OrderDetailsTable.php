@@ -60,6 +60,11 @@ class OrderDetailsTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('size')
+            ->maxLength('size', 45)
+            ->allowEmptyString('size');
+
+        $validator
             ->integer('quantity')
             ->allowEmptyString('quantity');
 

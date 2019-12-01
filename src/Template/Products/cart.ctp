@@ -76,10 +76,12 @@
             			<input type="text" id="brgy" class="form-control" placeholder="Barangay">
             		</div>
             		<div class="col-sm-4 form-group">
-            			<input type="text" id="cty" class="form-control" placeholder="City/Municipality">
+            			<!-- <input type="text" id="prov" class="form-control" placeholder="Province"> -->
+            			<select id="prov" class="form-control"></select>
             		</div>
             		<div class="col-sm-4 form-group">
-            			<input type="text" id="prov" class="form-control" placeholder="Province">
+            			<!-- <input type="text" id="cty" class="form-control" placeholder="City/Municipality"> -->
+            			<select id="cty" class="form-control"></select>
             		</div>
             	</div>
           	</div>
@@ -94,7 +96,7 @@
 					</li>
 					<li class="d-flex justify-content-between py-3 border-bottom">
 						<strong class="text-muted">Shipping and handling</strong>
-						<strong id="shipping-fee">$10.00</strong>
+						<strong id="shipping-fee"><?= 'P' . number_format($shipping->shipping_fee, 2) ?></strong>
 					</li>
 					<li class="d-flex justify-content-between py-3 border-bottom">
 						<strong class="text-muted">
@@ -117,6 +119,8 @@
 <?= $this->Form->control('city', ['type' => 'hidden']) ?>
 <?= $this->Form->control('province', ['type' => 'hidden']) ?>
 <?= $this->Form->end() ?>
+
+<?= $this->Html->script('city.min.js') ?>
 
 <script type="text/javascript">
 	function populateCartTable () {
@@ -145,7 +149,7 @@
 		var total_cart = shoppingCart.totalCart();
 		var cart = shoppingCart.listCart();
 		var shipping = cart.length > 0 ? 100 : 0;
-		$('#shipping-fee').text('P' + shipping.toFixed(2));
+		// $('#shipping-fee').text('P' + shipping.toFixed(2));
 		$('#total-cart').text('P' + total_cart.toFixed(2));
 		$("#total").text('P' + (total_cart + shipping).toFixed(2));
 	}
@@ -155,6 +159,9 @@
 	});
 
 	$(document).ready(function () {
+		var c = new City();
+		c.showProvinces('#prov');
+		c.showCities('#cty');
 		populateCartTable();
 		populateOrderSummary();
 		$('#payment-select').trigger('change');
@@ -176,7 +183,6 @@
 				$('#barangay').val($('#brgy').val());
 				$('#city').val($('#cty').val());
 				$('#province').val($('#prov').val());
-
 				$('#cart-form').trigger('submit');
 			} else {
 				Swal.fire(

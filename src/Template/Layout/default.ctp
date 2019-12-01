@@ -41,7 +41,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->Flash->render() ?>
     <?php endif ?>
     
-    <div class="row">
+    <div class="row mr-0 ml-0">
         <?php if (is_admin()): ?>
             <div class="col-sm-2">
                 <?= $this->element('sidebar_admin') ?>

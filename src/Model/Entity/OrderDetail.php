@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $order_id
  * @property int $product_id
+ * @property string|null $size
  * @property int|null $quantity
  *
  * @property \App\Model\Entity\Order $order
@@ -28,6 +29,7 @@ class OrderDetail extends Entity
     protected $_accessible = [
         'order_id' => true,
         'product_id' => true,
+        'size' => true,
         'quantity' => true,
         'order' => true,
         'product' => true

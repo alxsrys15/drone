@@ -25,6 +25,7 @@ class AdminController extends AppController
         $this->loadModel('Users');
         $this->loadModel('Payments');
         $this->loadModel('Branches');
+        $this->loadmodel('ShippingFee');
         $this->viewBuilder()->setLayout('admin');
     }
 
@@ -313,8 +314,16 @@ class AdminController extends AppController
 
     public function payments () {
         $payments = $this->Payments->find('all');
-
-        $this->set(compact('payments'));
+        $shipping = $this->ShippingFee->find('all')->first();
+        if ($this->request->is('post')) {
+            $s = $this->ShippingFee->get($this->request->data['id']);
+            $s->shipping_fee = $this->request->data['shipping_fee'];
+            if ($this->ShippingFee->save($s)) {
+                $this->Flash->success(__('Shipping fee updated.'));
+                $shipping = $this->ShippingFee->find('all')->first();
+            }
+        }
+        $this->set(compact('payments', 'shipping'));
     }
 
     public function paymentChangeStatus ($id, $active = 0) {
@@ -356,5 +365,30 @@ class AdminController extends AppController
         $this->set(compact('export_data', '_serialize', '_header'));
         $this->viewBuilder()->className('CsvView.Csv');
         return;
+    }
+
+    public function getOrder () {
+        $returnData = [];
+        $this->autoRender = false;
+        if ($this->request->is('get')) {
+            $order_id = $this->request->query['id'];
+            $order = $this->Orders->get($order_id, [
+                'contain' => [
+                    'OrderDetails',
+                    'OrderDetails.Products'
+                ]
+            ]);
+
+            foreach ($order->order_details as $detail) {
+                $returnData[] = [
+                    'name' => $detail->product->name,
+                    'size' => !empty($detail->size) ? $detail->size : '',
+                    'quantity' => $detail->quantity,
+                    'price' => number_format($detail->product->price, 2),
+                    'total' => number_format(($detail->quantity * $detail->product->price), 2)
+                ];
+            }
+        }
+        echo json_encode($returnData);
     }
 }
