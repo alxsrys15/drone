@@ -131,6 +131,8 @@ class UsersTable extends Table
 
                 if ($this->save($entity)) {
                     $this->getMailer('User')->send('welcome', [$entity]);
+                } else {
+                    die('xxx');
                 }
             }
         }

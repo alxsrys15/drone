@@ -57,7 +57,7 @@
                             <?= $this->Form->button('Register', ['type' => 'submit', 'class' => 'btn btn-primary']) ?>
                         </div>
                     </div>
-                    
+                    <?= $this->Form->input('lib_user_roles_id', ['type' => 'hidden', 'value' => '2']) ?>
                     <?= $this->Form->end() ?>
                 </div>
             </div>
