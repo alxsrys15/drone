@@ -184,7 +184,12 @@ class ProductsController extends AppController
             if ($this->Auth->User('id')) {
                 $payment_type = $this->request->getData()['payment_type'];
                 $items = json_decode($this->request->getData()['items'], true);
-                $shipping_address = $this->request->getData()['shipping_address'];
+                $shipping_address = [
+                    'street_address' => $this->request->getData('street_address'),
+                    'barangay' => $this->request->getData('barangay'),
+                    'city' => $this->request->getData('city'),
+                    'province' => $this->request->getData('province')
+                ];
                 if ($payment_type === "PAYPAL") {
                     $this->processPaypal($items, $shipping_address);
                 } elseif ($payment_type === "PAYMAYA") {
@@ -282,7 +287,7 @@ class ProductsController extends AppController
                 'transactions' => [
                     [
                         'amount' => [
-                            'total' => $total_amount + 100,
+                            'total' => $total_amount + $shipping_fee->shipping_fee,
                             'currency' => 'PHP',
                             'details' => [
                                 'shipping' => $shipping_fee->shipping_fee,
@@ -307,18 +312,20 @@ class ProductsController extends AppController
 
     public function completeOrder () {
         $this->loadModel('Orders');
+        $this->loadModel('ShippingFee');
         $jwt = new JWT('secret', 'HS256', 3600, 10);
+        $shipping_fee = $this->ShippingFee->find('all')->first();
         if ($this->request->is('get')) {
             $is_success = $this->request->getQuery()['success'];
             $saved = false;
             if ($is_success) {
                 $order_details = $jwt->decode($this->request->getQuery()['order_details']);
                 $items = json_decode(json_encode($order_details['items']), true);
+                $shipping_address = json_decode(json_encode($order_details['shipping_address']), true);
                 $token_check = $this->Orders->exists(['payment_token' => $this->request->getQuery()['token']]);
                 if (!$token_check) {
                     $total = 0;
                     $newOrderDetails = [];
-                    $shipping_address = $order_details['shipping_address'];
                     foreach ($items as $i) {
                         $total += $i['total'];
                         $newOrderDetails[] = [
@@ -327,22 +334,24 @@ class ProductsController extends AppController
                             'quantity' => $i['count']
                         ];
                     }
+
                     $newOrder = [
                         'user_id' => $this->Auth->User('id'),
                         'total' => (int) $total,
-                        'shipping_address' => $shipping_address,
                         'payment_type' => $this->request->getQuery()['payment_type'],
                         'lib_status_code_id' => 2,
                         'payment_token' => $this->request->getQuery()['token'],
                         'order_details' => $newOrderDetails
                     ];
+                    $newOrder = array_merge($newOrder, $shipping_address);
+                    
                     $newOrder = $this->Orders->newEntity($newOrder, ['associated' => 'OrderDetails']);
                     
                     if ($this->Orders->save($newOrder, ['associated' => 'OrderDetails'])) {
                         $this->adjustStock($items);
                     }
                 }
-                $this->set(compact('items'));
+                $this->set(compact('items', 'shipping_fee'));
             }
         }
     }

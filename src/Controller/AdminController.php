@@ -183,7 +183,7 @@ class AdminController extends AppController
 
     public function userAdd () {
         if ($this->request->is('post')) {
-            if ($this->Users->save($this->request->getData())) {
+            if ($this->Users->save($this->Users->newEntity($this->request->getData()))) {
                 $this->Flash->success(__('User created'));
             } else {
                 $this->Flash->error(__('Registration unsuccesful'));

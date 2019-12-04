@@ -58,13 +58,13 @@ foreach ($items as $item) {
 					</li>
 					<li class="d-flex justify-content-between py-3 border-bottom">
 						<strong class="text-muted">Shipping and handling</strong>
-						<strong id="shipping-fee">P100.00</strong>
+						<strong id="shipping-fee"><?= number_format($shipping_fee->shipping_fee, 2) ?></strong>
 					</li>
 					<li class="d-flex justify-content-between py-3 border-bottom">
 						<strong class="text-muted">
 							Total
 						</strong>
-                		<h5 class="font-weight-bold" id="total">P<?= number_format($total + 100, 2) ?></h5>
+                		<h5 class="font-weight-bold" id="total">P<?= number_format($total + $shipping_fee->shipping_fee, 2) ?></h5>
               		</li>
 				</ul>
 			</div>
