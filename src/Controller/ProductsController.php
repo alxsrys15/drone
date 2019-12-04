@@ -13,9 +13,10 @@ use PayPal\Api\Payment;
 use PayPal\Exception\PayPalConnectionException;
 use Ahc\Jwt\JWT;
 use Cake\Routing\Router;
-use PayMaya\Api\Checkout;
+use PayMaya\API\Checkout;
 use PayMaya\PayMayaSDK;
-use PayMaya\Api\Customization;
+use PayMaya\API\Customization;
+
 
 /**
  * Products Controller
