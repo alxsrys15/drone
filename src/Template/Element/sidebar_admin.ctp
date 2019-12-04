@@ -8,6 +8,9 @@
 	<li class="nav-item">
         <?= $this->Html->link('<i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span>', ['controller' => 'Admin', 'action' => 'index'], ['class' => 'nav-link', 'escape' => false]) ?>
     </li>
+    <li class="nav-item">
+        <?= $this->Html->link('<i class="fa fa-bullhorn"></i><span>Announcements</span>', ['controller' => 'Admin', 'action' => 'announcements'], ['class' => 'nav-link', 'escape' => false]) ?>
+    </li>
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
        Master Data

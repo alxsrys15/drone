@@ -24,8 +24,9 @@ class HomeController extends AppController
 
     public function index () {
     	$products = $this->Products->find('all');
-
-    	$this->set(compact('products'));
+        $this->loadModel('Announcements');
+        $announcements = $this->Announcements->find('all');
+    	$this->set(compact('products','announcements'));
     }
     
 }

@@ -4,10 +4,12 @@
 			<div id="c1_indicator" class="carousel slide" data-ride="carousel">
 				<ol class="carousel-indicators">
 					<li data-target="#c1_indicator" data-slide-to="0" class="active"></li>
-					<li data-target="#c1_indicator" data-slide-to="1"></li>			    
-					<li data-target="#c1_indicator" data-slide-to="2"></li>
-					<li data-target="#c1_indicator" data-slide-to="3"></li>
-					<li data-target="#c1_indicator" data-slide-to="4"></li>
+					<li data-target="#c1_indicator" data-slide-to="1"></li>
+					<?php $ctr = 1; ?>		    
+					<?php foreach ($announcements as $announcement): ?>
+					<?php $ctr = $ctr + 1 ?>
+					<li data-target="#c1_indicator" data-slide-to="<?= $ctr ?>"></li>	
+					<?php endforeach ?>
 				</ol>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
@@ -16,15 +18,11 @@
 					<div class="carousel-item">
 						<?= $this->Html->image('drone_caro11.jpg') ?>
 					</div>
+					<?php foreach ($announcements as $a): ?>
 					<div class="carousel-item">
-						<?= $this->Html->image('drone_caro13.jpg') ?>
+						<?= $this->Html->image('carousel_images/' . $a->img) ?>
 					</div>
-					<div class="carousel-item">
-						<?= $this->Html->image('drone_caro12.jpg') ?>
-					</div>
-					<div class="carousel-item">
-						<?= $this->Html->image('drone_caro14.jpg') ?>
-					</div>
+					<?php endforeach ?>
 				</div>
 				<a class="carousel-control-prev" href="#c1_indicator" role="button" data-slide="prev">
 					<span class="carousel-control-prev-icon" aria-hidden="true"></span>

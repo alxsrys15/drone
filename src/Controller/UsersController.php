@@ -157,7 +157,7 @@ class UsersController extends AppController
             $newUser->verification_token = '';
             $errors = $newUser->getErrors();
             if ($this->Users->save($newUser)) {
-                $this->Flash->success(__('Registration successful.'));
+                $this->Flash->success(__('Registration successful. Please verify your email first to login.'));
                 $this->redirect(['action' => 'login']);
             }
         }

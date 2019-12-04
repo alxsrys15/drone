@@ -241,7 +241,7 @@ class ProductsController extends AppController
                 ];
             }
             $itemCheckout->totalAmount = [
-                'value' => $total_amount + 100,
+                'value' => $total_amount + $shipping_fee->shipping_fee,
                 'currency' => 'PHP',
                 'details' => [
                     'shippingFee' => $shipping_fee->shipping_fee

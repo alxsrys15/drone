@@ -388,7 +388,37 @@ class AdminController extends AppController
                     'total' => number_format(($detail->quantity * $detail->product->price), 2)
                 ];
             }
+            array_reverse($returnData);
         }
         echo json_encode($returnData);
+    }
+
+    public function announcements () {
+        $this->loadModel('Announcements');
+        $announcements = $this->Announcements->find('all');
+        $this->set(compact('announcements'));
+    }
+
+    public function announcementAdd () {
+        $this->autoRender = false;
+        $this->loadModel('Announcements');
+        $arr_ext = ['jpg', 'jpeg', 'png'];
+        if ($this->request->is('post')) {
+            $img = $this->request->data['img'];
+            if (in_array(pathinfo($img['name'], PATHINFO_EXTENSION), $arr_ext)) {
+                if (move_uploaded_file($img['tmp_name'], WWW_ROOT . '/img/carousel_images/' . $img['name'])) {
+                    $saveData = [
+                        'img' => $img['name']
+                    ];
+                    if ($this->Announcements->save($this->Announcements->newEntity($saveData))) {
+                        $this->Flash->success(__('Announcement added'));
+                        return $this->redirect(['action' => 'announcements']);
+                    }
+                }
+            } else {
+                $this->Flash->error(__('Invalid file.'));
+                return $this->redirect(['action' => 'announcements']);
+            }
+        }
     }
 }

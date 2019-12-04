@@ -1,6 +1,6 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 	<h1 class="h3 mb-0 text-gray-800">Products</h1>
-	<button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-target="#product_add_modal" data-toggle="modal"><i class="fas fa-plus fa-sm text-white-50"></i> Add Product</button>
+	<button class="btn btn-sm btn-primary shadow-sm" data-target="#product_add_modal" data-toggle="modal"><i class="fas fa-plus fa-sm text-white-50"></i> Add Product</button>
 </div>
 <div class="form-row">
 	<div class="col-sm-4 form-group">
@@ -17,7 +17,7 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-xl-12 col-lg-12">
+	<div class="col-sm-12 table-responsive">
 		<table class="table">
 			<thead>
 				<tr>
